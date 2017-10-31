@@ -1,0 +1,18 @@
+#!/usr/bin/python
+import requests
+from pushbullet import Pushbullet
+import json
+
+a = requests.get(url='http://www.pm25.in/api/querys/pm2_5.json?city=成都&token=5j1znBVAsnSf5xQyNQyq')
+b = a.json()
+c = b[0]
+data_aqi = c['aqi']
+print(data_aqi)
+if data_aqi < 50:
+    word = "\n空气质量不错，开窗通风吧"
+elif data_aqi > 150:
+    word = "\n空气质量很糟糕， 快关窗户为自己续一秒！"
+
+pb = Pushbullet("***********") #hide my api key
+
+push = pb.push_note("成都污染情况", b , word)
